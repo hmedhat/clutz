@@ -4,6 +4,7 @@ class A {
   f: any;
   static g: boolean = true;
   static h: any;
+  parameterProp: number;
   b: boolean;
   z: number;
   w: any;
@@ -19,9 +20,8 @@ class A {
   // These are undeclared fields
   u: any;
 
-  constructor(public parameterProp: number, objectParam: {
-    foo: {bar: () => number}
-  }) {
+  constructor(parameterProp: number, objectParam: {foo: {bar: () => number}}) {
+    this.parameterProp = parameterProp;
     let y = 1;
     this.z = y + 1;
     this.w.bar = 'bar';

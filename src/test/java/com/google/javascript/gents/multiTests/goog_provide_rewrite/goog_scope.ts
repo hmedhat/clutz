@@ -9,8 +9,11 @@ let instanceofNotProvidedAlias = new ImportedClass.NotProvidedSubclass();
 
 export class Foo {
   static num: number = 8;
+  n: number;
 
-  constructor(public n: number) {}
+  constructor(n: number) {
+    this.n = n;
+  }
 
   static staticFunction(): string {
     return 'this is a static method on Foo, since it is NOT goog.provided';

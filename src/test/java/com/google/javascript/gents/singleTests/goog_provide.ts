@@ -8,8 +8,11 @@ let path = {to: {someUtilFunction: function() {}}};
 
 export class B {
   static num: number = 8;
+  n: number;
 
-  constructor(public n: number) {}
+  constructor(n: number) {
+    this.n = n;
+  }
 
   static foo(): number {
     return 4;

@@ -290,50 +290,6 @@ public final class TypeConversionPass implements CompilerPass {
         Node fnNode = NodeUtil.getEnclosingFunction(n);
         String fnName = getEnclosingFunctionName(fnNode);
 
-        // TODO(gmoothart): in many cases we should be able to infer the type from the rhs if there
-        // is no jsDoc
-
-        // Convert fields to parameter properties when we are in the constructor and have a
-        // declaration of the form this.name = name;
-        if ("constructor".equals(fnName)
-            && declaration.jsDoc != null
-            && declaration.rhsEqualToField()) {
-          JSTypeExpression declarationType = declaration.jsDoc.getType();
-          Node params = fnNode.getSecondChild();
-          @Nullable JSDocInfo constructorJsDoc = NodeUtil.getBestJSDocInfo(fnNode);
-
-          for (Node param : params.children()) {
-            Node nodeAfterDefault = param.isDefaultValue() ? param.getFirstChild() : param;
-            // If not a Name node, it is potentially a destructuring arg, for which we cannot
-            // use the public/private shorthand.
-            if (!nodeAfterDefault.isName()) {
-              continue;
-            }
-            // It appears that adding ACCESS_MODIFIERs to Default params do not come out though
-            // the CodeGenerator, thus not safe to remove the declaration.
-            // TODO(rado): fix in emitting code and remove this line.
-            if (param.isDefaultValue()) {
-              continue;
-            }
-            String paramName = nodeAfterDefault.getString();
-            @Nullable
-            JSTypeExpression paramType =
-                constructorJsDoc == null ? null : constructorJsDoc.getParameterType(paramName);
-            // Names must be equal. Types must be equal, or if the declaration has no type it is
-            // assumed to be the type of the parameter.
-            if (declaration.memberName.equals(paramName)
-                && (declarationType == null || declarationType.equals(paramType))) {
-
-              // Add visibility directly to param if possible
-              moveAccessModifier(declaration, param);
-              markAsConst(declaration, param);
-              compiler.reportChangeToEnclosingScope(n);
-              n.detach();
-              return;
-            }
-          }
-        }
-
         moveFieldsIntoClasses(declaration);
         registerDeclaration(declaration);
       }

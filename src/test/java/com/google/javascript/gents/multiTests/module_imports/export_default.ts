@@ -1,4 +1,8 @@
 
 export class A {
-  constructor(public n: number) {}
+  n: number;
+
+  constructor(n: number) {
+    this.n = n;
+  }
 }
