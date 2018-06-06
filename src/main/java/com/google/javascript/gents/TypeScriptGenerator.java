@@ -46,7 +46,9 @@ public class TypeScriptGenerator {
    * clang-format of the file type (TS).
    */
   private static final String[] CLANG_FORMAT = {
-    "./node_modules/.bin/clang-format", "-assume-filename=a.ts", "-style=Google"
+    "./node_modules/.bin/clang-format",
+    "-assume-filename=a.ts",
+    "-style={BasedOnStyle: Google, ColumnLimit: 1000}"
   };
 
   static {

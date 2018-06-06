@@ -15,8 +15,7 @@ let basicParams: (p1: number, p2: string) => number = function(n, s) {
 };
 
 // Optional Parameters
-let optParams: (p1: number, p2?: string, p3?: boolean) =>
-    any = function(n, s, b) {};
+let optParams: (p1: number, p2?: string, p3?: boolean) => any = function(n, s, b) {};
 
 // Variadic parameters
 let restParams: (p1: number, ...p2) => any = function(n, r) {};
